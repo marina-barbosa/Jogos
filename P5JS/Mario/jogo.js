@@ -273,15 +273,15 @@ function botaoMover() {
   bup.mousePressed(moveUp);
 
   bdown = createButton('\\/');
-  bdown.position(400, 660);
+  bdown.position(400, 800);
   bdown.mousePressed(moveDown);
 
   bleft = createButton('<<');
-  bleft.position(320, 630);
+  bleft.position(200, 700);
   bleft.mousePressed(moveLeft);
 
   bright = createButton('>>');
-  bright.position(480, 630);
+  bright.position(600, 700);
   bright.mousePressed(moveRight);
 }
 
