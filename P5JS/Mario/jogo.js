@@ -16,7 +16,7 @@ let marioVoa;
 let temChave;
 let somPena;
 let tamanho = 64;
-let velocidade = 64;
+let velocidade = 8;
 let andarX;
 let andarY;
 let restart;
@@ -134,6 +134,22 @@ function draw() {
     somMoeda.play();
     temChave = true;
   }
+  // movimentação
+  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
+    moveDown();
+  }
+
+  if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
+    moveUp();
+  }
+
+  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
+    moveLeft();
+  }
+
+  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+    moveRight();
+  }
 
 
   winCondition()
@@ -161,11 +177,11 @@ function colisao(objeto) {
 function colisaoUp() {
   let res = false
   for (let i = 0; i < blocos.length; i++) {
-    if (andarY - tamanho + 24 == blocos[i].y && andarX == blocos[i].x) {
+    if (andarY - 90 == blocos[i].y && andarX == blocos[i].x) {
       res = true;
     }
   }
-  if (andarY - tamanho < 0) {
+  if (andarY < 2) {
     res = true; // colisao borda
   }
   return res;
@@ -173,11 +189,11 @@ function colisaoUp() {
 function colisaoDown() {
   let res = false
   for (let i = 0; i < blocos.length; i++) {
-    if (andarY + tamanho + 24 == blocos[i].y && andarX == blocos[i].x) {
+    if (andarY + 90 == blocos[i].y && andarX == blocos[i].x) {
       res = true;
     }
   }
-  if (andarY + tamanho > 424) {
+  if (andarY > 420) {
     res = true; // colisao borda
   }
   return res;
@@ -185,11 +201,11 @@ function colisaoDown() {
 function colisaoLeft() {
   let res = false
   for (let i = 0; i < blocos.length; i++) {
-    if (andarX - tamanho == blocos[i].x && andarY + 24 == blocos[i].y) {
+    if (andarX - 90 == blocos[i].x && andarY + 24 == blocos[i].y) {
       res = true;
     }
   }
-  if (andarX - tamanho < 0) {
+  if (andarX < 2) {
     res = true; // colisao borda
   }
   return res;
@@ -197,11 +213,11 @@ function colisaoLeft() {
 function colisaoRight() {
   let res = false
   for (let i = 0; i < blocos.length; i++) {
-    if (andarX + tamanho == blocos[i].x && andarY + 24 == blocos[i].y) {
+    if (andarX + 90 == blocos[i].x && andarY + 24 == blocos[i].y) {
       res = true;
     }
   }
-  if (andarX + tamanho > tamanho * 13) {
+  if (andarX > tamanho * 13) {
     res = true; // colisao borda
   }
   return res;
@@ -249,21 +265,7 @@ function moveRight() {
 
 // CONTROLE TECLADO
 function keyPressed() {
-  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
-    moveDown();
-  }
 
-  if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
-    moveUp();
-  }
-
-  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
-    moveLeft();
-  }
-
-  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
-    moveRight();
-  }
 }
 
 // CONTROLE BOTOES
