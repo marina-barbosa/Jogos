@@ -134,6 +134,12 @@ function draw() {
     somMoeda.play();
     temChave = true;
   }
+
+
+
+
+
+
   // movimentação
   if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
     moveDown();
@@ -165,7 +171,7 @@ function colisao(objeto) {
   for (let i = 0; i < objeto.length; i++) {
     if (!objeto[i].coletada) {
       const distancia = dist(objeto[i].x, objeto[i].y, andarX, andarY);
-      if (distancia < 32) { //raio da moeda de 32 pixels
+      if (distancia < 70) {
         objeto[i].coletada = true;
         return true;
       }
@@ -173,69 +179,58 @@ function colisao(objeto) {
   }
 }
 
-// COLISOES COM BLOCOS
-function colisaoUp() {
-  let res = false
+// COLISOES COM BLOCOS VERTICAL
+function colisaoComBlocos() {
   for (let i = 0; i < blocos.length; i++) {
-    if (andarY - 90 == blocos[i].y && andarX == blocos[i].x) {
-      res = true;
+    if (
+      andarX + 90 > blocos[i].x &&
+      andarX < blocos[i].x + tamanho &&
+      andarY + 90 > blocos[i].y &&
+      andarY < blocos[i].y + tamanho
+    ) {
+      if (andarY + 90 > blocos[i].y && andarY < blocos[i].y) {
+        andarY = blocos[i].y - 90;
+      } else {
+        andarY = blocos[i].y + tamanho;
+      }
     }
   }
-  if (andarY < 2) {
-    res = true; // colisao borda
-  }
-  return res;
-}
-function colisaoDown() {
-  let res = false
-  for (let i = 0; i < blocos.length; i++) {
-    if (andarY + 90 == blocos[i].y && andarX == blocos[i].x) {
-      res = true;
-    }
-  }
-  if (andarY > 420) {
-    res = true; // colisao borda
-  }
-  return res;
-}
-function colisaoLeft() {
-  let res = false
-  for (let i = 0; i < blocos.length; i++) {
-    if (andarX - 90 == blocos[i].x && andarY + 24 == blocos[i].y) {
-      res = true;
-    }
-  }
-  if (andarX < 2) {
-    res = true; // colisao borda
-  }
-  return res;
-}
-function colisaoRight() {
-  let res = false
-  for (let i = 0; i < blocos.length; i++) {
-    if (andarX + 90 == blocos[i].x && andarY + 24 == blocos[i].y) {
-      res = true;
-    }
-  }
-  if (andarX > tamanho * 13) {
-    res = true; // colisao borda
-  }
-  return res;
 }
 
+// COLISAO COM BLOCOS HORIZONTAL
+function colisaoComBlocos2() {
+  for (let i = 0; i < blocos.length; i++) {
+    if (
+      andarX + 90 > blocos[i].x &&
+      andarX < blocos[i].x + tamanho &&
+      andarY + 90 > blocos[i].y &&
+      andarY < blocos[i].y + tamanho
+    ) {
+      if (andarX + 90 > blocos[i].x && andarX < blocos[i].x) {
+        andarX = blocos[i].x - 90;
+      } else {
+        andarX = blocos[i].x + tamanho;
+      }
+    }
+  }
+}
 
 // FUNÇÕES MOVER
 function moveUp() {
-  if (!colisaoUp()) {
-    if (marioVoa) {
-      andarY -= velocidade;
-    }
+  if (marioVoa) {
+    andarY -= velocidade;
+  }
+  colisaoComBlocos();
+  if (andarY < 0) {
+    andarY = 0
   }
 }
 
 function moveDown() {
-  if (!colisaoDown()) {
-    andarY += velocidade;
+  andarY += velocidade;
+  colisaoComBlocos();
+  if (andarY > 424) {
+    andarY = 424
   }
 }
 
@@ -245,8 +240,10 @@ function moveLeft() {
   } else {
     personagem = loadImage('imagens/marioesq.png');
   }
-  if (!colisaoLeft()) {
-    andarX -= velocidade;
+  andarX -= velocidade;
+  colisaoComBlocos2();
+  if (andarX < 0) {
+    andarX = 0
   }
 }
 
@@ -256,17 +253,14 @@ function moveRight() {
   } else {
     personagem = loadImage('imagens/mariodir.png');
   }
-  if (!colisaoRight()) {
-    andarX += velocidade;
+  andarX += velocidade;
+  colisaoComBlocos2();
+  if (andarX > 840) {
+    andarX = 840
   }
 }
 
 
-
-// CONTROLE TECLADO
-function keyPressed() {
-
-}
 
 // CONTROLE BOTOES
 function botaoMover() {
@@ -288,14 +282,17 @@ function botaoMover() {
 }
 
 function winCondition() {
-  if (andarX === 448 && andarY === 424 && temChave) {
+  if (temChave) {
+    const distancia = dist(portas[0].x, portas[0].y, andarX, andarY);
+    if (distancia < 50) {
 
-    rect(120, 100, 700, 200, 20)
-    text('^^', 475, 200)
-    textSize(50)
-    restart = createButton('Reiniciar')
-    restart.mousePressed(reset)
-    noLoop()
+      rect(120, 100, 700, 200, 20)
+      text('^^', 475, 200)
+      textSize(50)
+      restart = createButton('Reiniciar')
+      restart.mousePressed(reset)
+      noLoop()
+    }
   }
 }
 
