@@ -1,31 +1,18 @@
 let personagem;
 let piso = [];
-let pisoImg;
+let pisoImg, moedaImg, chaveImg, portaImg, penaImg, blocoImg;
 let moedas = [];
-let moedaImg;
-let somMoeda;
+let somMoeda, somPena;
 let chaves = [];
-let chaveImg;
 let portas = [];
-let portaImg;
 let penas = [];
-let penaImg;
 let blocos = [];
-let blocoImg;
-let marioVoa;
-let temChave;
-let somPena;
+let marioVoa, temChave;
 let tamanho = 64;
 let velocidade = 8;
-let andarX;
-let andarY;
+let andarX, andarY;
 let restart;
-let botaoUp;
-let botaoDown;
-let botaoLeft;
-let botaoRight;
-
-
+let botaoUp, botaoDown, botaoLeft, botaoRight;
 
 // PRELOAD
 function preload() {
