@@ -16,17 +16,17 @@ let botaoUp, botaoDown, botaoLeft, botaoRight;
 
 // PRELOAD
 function preload() {
-  somPena = loadSound("sound/penasound.mp3")
-  somMoeda = loadSound("sound/coinsound.wav")
+  somPena = loadSound("../assets/sound/penasound.mp3")
+  somMoeda = loadSound("../assets/sound/coinsound.wav")
   //somPorta = loadSound("")
 
-  personagem = loadImage('imagens/mariodir.png');
-  pisoImg = loadImage('imagens/piso.png');
-  blocoImg = loadImage('imagens/bloco.png');
-  portaImg = loadImage('imagens/porta.png');
-  chaveImg = loadImage('imagens/chave.png');
-  penaImg = loadImage('imagens/pena.png');
-  moedaImg = loadImage('imagens/moeda.png');
+  personagem = loadImage('../assets/imagens/mariodir.png');
+  pisoImg = loadImage('../assets/imagens/piso.png');
+  blocoImg = loadImage('../assets/imagens/bloco.png');
+  portaImg = loadImage('../assets/imagens/porta.png');
+  chaveImg = loadImage('../assets/imagens/chave.png');
+  penaImg = loadImage('../assets/imagens/pena.png');
+  moedaImg = loadImage('../assets/imagens/moeda.png');
 }
 
 // SETUP
@@ -64,8 +64,6 @@ function setup() {
   ]
 
   botaoMover()
-
-
 
 }
 
@@ -113,7 +111,7 @@ function draw() {
 
   if (colisao(penas)) {
     marioVoa = true;
-    personagem = loadImage('imagens/mariovoadir.png');
+    personagem = loadImage('../assets/imagens/mariovoadir.png');
     somPena.play();
   }
 
@@ -121,11 +119,6 @@ function draw() {
     somMoeda.play();
     temChave = true;
   }
-
-
-
-
-
 
   // movimentação
   if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
@@ -144,9 +137,7 @@ function draw() {
     moveRight();
   }
 
-
   winCondition()
-
 
   textSize(20)
   text(`x:${andarX} y: ${andarY}`, 30, 30)
@@ -223,9 +214,9 @@ function moveDown() {
 
 function moveLeft() {
   if (marioVoa) {
-    personagem = loadImage('imagens/mariovoaesq.png');
+    personagem = loadImage('../assets/imagens/mariovoaesq.png');
   } else {
-    personagem = loadImage('imagens/marioesq.png');
+    personagem = loadImage('../assets/imagens/marioesq.png');
   }
   andarX -= velocidade;
   colisaoComBlocos2();
@@ -236,9 +227,9 @@ function moveLeft() {
 
 function moveRight() {
   if (marioVoa) {
-    personagem = loadImage('imagens/mariovoadir.png');
+    personagem = loadImage('../assets/imagens/mariovoadir.png');
   } else {
-    personagem = loadImage('imagens/mariodir.png');
+    personagem = loadImage('../assets/imagens/mariodir.png');
   }
   andarX += velocidade;
   colisaoComBlocos2();
@@ -246,8 +237,6 @@ function moveRight() {
     andarX = 840
   }
 }
-
-
 
 // CONTROLE BOTOES
 function botaoMover() {
@@ -294,5 +283,3 @@ function reset() {
   bright.remove()
   loop()
 }
-
-
