@@ -1,3 +1,5 @@
+
+
 let personagem;
 let piso = [];
 let pisoImg;
@@ -20,10 +22,14 @@ let velocidade = 8;
 let andarX;
 let andarY;
 let restart;
-let botaoUp;
-let botaoDown;
-let botaoLeft;
-let botaoRight;
+
+
+
+let pulando = false;
+let velocidadePulo = 10;
+let gravidade = 0.5;
+let alturaMaximaPulo = 200;
+let alturaAtualPulo = 0;
 
 
 
@@ -45,6 +51,8 @@ function preload() {
 // SETUP
 function setup() {
   createCanvas(929, 576);
+
+  configurarBotoes();
 
   marioVoa = false;
   temChave = false;
@@ -76,7 +84,7 @@ function setup() {
     { x: 512, y: 192 }
   ]
 
-  botaoMover()
+
 
 
 
@@ -157,8 +165,16 @@ function draw() {
     moveRight();
   }
 
+  if (keyIsDown(32)) {
+    pular();
+  }
+
+
+
 
   winCondition()
+
+  atualizarPulo(); //pulo
 
 
   textSize(20)
@@ -196,6 +212,9 @@ function colisaoComBlocos() {
     }
   }
 }
+
+
+
 
 // COLISAO COM BLOCOS HORIZONTAL
 function colisaoComBlocos2() {
@@ -263,23 +282,30 @@ function moveRight() {
 
 
 // CONTROLE BOTOES
-function botaoMover() {
-  bup = createButton('/\\');
-  bup.position(400, 600);
+function configurarBotoes() {
+  // código para configurar botões de movimento
+  const mainElement = document.querySelector('main'); // Seleciona o elemento main
+
+  const bup = createButton('/\\');
   bup.mousePressed(moveUp);
+  mainElement.appendChild(bup); // Adiciona o botão ao elemento main
 
-  bdown = createButton('\\/');
-  bdown.position(400, 800);
+  const bdown = createButton('\\/');
   bdown.mousePressed(moveDown);
+  mainElement.appendChild(bdown);
 
-  bleft = createButton('<<');
-  bleft.position(200, 700);
+  const bleft = createButton('<<');
   bleft.mousePressed(moveLeft);
+  mainElement.appendChild(bleft);
 
-  bright = createButton('>>');
-  bright.position(600, 700);
+  const bright = createButton('>>');
   bright.mousePressed(moveRight);
+  mainElement.appendChild(bright);
 }
+
+
+
+
 
 function winCondition() {
   if (temChave) {
@@ -307,5 +333,48 @@ function reset() {
   bright.remove()
   loop()
 }
+
+
+//pulo
+
+// Função de pulo
+function pular() {
+  if (!pulando && andarY === 424) { // Verifica se o personagem não está pulando e está no chão
+    pulando = true;
+    alturaAtualPulo = 0;
+  }
+}
+
+// Atualização do pulo
+function atualizarPulo() {
+  if (pulando) {
+    // Calcula a posição vertical do pulo
+    let novaAltura = andarY - velocidadePulo + gravidade * alturaAtualPulo;
+
+    // Verifica se ultrapassou a altura máxima do pulo
+    if (novaAltura <= andarY - alturaMaximaPulo) {
+      pulando = false;
+      novaAltura = andarY - alturaMaximaPulo;
+    }
+
+    // Verifica se atingiu o chão
+    if (novaAltura >= 424) {
+      pulando = false;
+      novaAltura = 424;
+    }
+
+    // Atualiza a posição vertical do personagem
+    andarY = novaAltura;
+
+    // Incrementa a altura atual do pulo
+    alturaAtualPulo++;
+  }
+}
+
+// function keyPressed() {
+//   if (keyCode === 32) {
+//     pular();
+//   }
+// }
 
 
